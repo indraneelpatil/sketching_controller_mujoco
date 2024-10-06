@@ -25,3 +25,7 @@
 * Mujoco world model https://www.youtube.com/watch?v=j1nCeqtfySQ
 * LQR regulator around a static equilibrium point (including numerical perturbation method of linearistion) https://www.youtube.com/watch?v=KvNmOMk8pYs&list=PLc7bpbeTIk75dgBVd07z6_uKN1KQkwFRK&index=27
 * Taylor series linearisation https://www.youtube.com/watch?v=owv_2YdO8rA
+
+#### Special thanks
+* Prof. Pranav Bhounsule's Mujoco lecture series on youtube
+* My girlfriend for all the no travel weekends
