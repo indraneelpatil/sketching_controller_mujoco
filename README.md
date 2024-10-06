@@ -1,5 +1,10 @@
 ### Takeaways
 
+#### Mujoco
+* World model of the 2R manipulator arm in front of a sketching board/ wall
+* Need to enable contact forces between manipulator and the board
+* Need to add sensors to end affector to measure our controller quantities
+
 #### Force controller
 * Desired quantities to control in the end affector space can be mapped to force vectors which are then mapped to joint space to achieve the desired control
 * Sometimes its not easy to map quantites to control to the control space
