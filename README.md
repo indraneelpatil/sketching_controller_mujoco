@@ -18,3 +18,10 @@
 * End affector force cannot be modelled in the dynamic equation of the manipulator since the state space tracking controller compensates those internal forces to achieve zero velocities in the x direction
 * End affector force needs a feedforward term in the control law along with the state space tracking feedback term
 * Does not need hand tuning of the controller behaviour, more robust to external disturbance
+
+
+#### Reference videos
+* LQR tracking https://www.youtube.com/watch?v=X3Dfy8H4Inc
+* Mujoco world model https://www.youtube.com/watch?v=j1nCeqtfySQ
+* LQR regulator around a static equilibrium point (including numerical perturbation method of linearistion) https://www.youtube.com/watch?v=KvNmOMk8pYs&list=PLc7bpbeTIk75dgBVd07z6_uKN1KQkwFRK&index=27
+* Taylor series linearisation https://www.youtube.com/watch?v=owv_2YdO8rA
