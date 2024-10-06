@@ -12,7 +12,7 @@
 * Needs hand tuning of controller behaviour like oscillations and stead state error
 
 #### State space control
-* Necesaary condition is the dynamic equation of the system, for an N-link manipulator lagrangian energy method is a good way to derive this
+* Necesaary condition is the dynamic equation of the system, for an N-link manipulator lagrangian energy method is a good way to derive this, math can get complicated
 * A non linear system like the manipulator needs to be linearised about an operating point to apply the state space control theory
 * Linearisation can be achieved using taylor series expansion and also numerical perturbation, in practice numerical perturbation is way easier to implement and the result is identical from both the methods
 * End affector force cannot be modelled in the dynamic equation of the manipulator since the state space tracking controller compensates those internal forces to achieve zero velocities in the x direction
