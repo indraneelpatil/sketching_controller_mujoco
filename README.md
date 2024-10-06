@@ -20,7 +20,7 @@
 * Does not need hand tuning of the controller behaviour, more robust to external disturbance
 
 #### TODO future
-* End affector force fluctuates because it is a feed forward term in my control law, if I wanted feedback control on force I can consider adding acceleration to the state but it is unclear how to get dynamic form for x_triple_dot, maybe by differentiating q_double_dot standard form?
+* End affector force fluctuates because it is a feed forward term in my control law, if I wanted feedback control on force I can consider adding acceleration to the state but it is unclear how to get dynamic form for x_triple_dot, maybe by differentiating q_double_dot standard form? Nevermind that should work
 
 #### Reference videos
 * LQR tracking https://www.youtube.com/watch?v=X3Dfy8H4Inc
