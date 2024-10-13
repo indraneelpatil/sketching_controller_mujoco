@@ -23,7 +23,7 @@
 * End affector force cannot be modelled in the dynamic equation of the manipulator since the dynamic equations is used to get an optimal feedback gain K and then all that the controller sees is the desired state and actual state, the modelled force in the dynamics is hidden away by K, so modelling that force in the dynamics of the manipulator might get you a better K but thats it
 * End affector force needs a feedforward term in the control law along with the state space tracking feedback term
 * Does not need hand tuning of the controller behaviour, more robust to external disturbance
-* Good tracking of end affector force is not achieved because it is a feed forward term in my control law
+* Good tracking of end affector force is not achieved because it is a feed forward term in the control law
 
 |    Ef force     |      Ef velocity    |   Ef pose     |    Joint torques     |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | 
