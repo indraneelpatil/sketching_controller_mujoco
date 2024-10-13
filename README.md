@@ -24,7 +24,7 @@
 * Our control space is torques applied to the joints of the manipulator which directly changes the acceleration of the joints
 * The controller applies certain accelerations to track other desired quantities i.e. position/ velocity
 * If our tracking controller also tries to control the acceleration then it loses the ability to track the other quantities
-* So the lqr is unstable if we try to track all three accelation/ velocity and position
+* So the lqr is unstable if we try to track all three acceleration along with velocity and position
 * If the accleration weights in the Q matrix are decreased the controller becomes stable but does not track our desired acceleration
 
 #### TODO future
