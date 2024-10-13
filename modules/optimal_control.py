@@ -26,7 +26,6 @@ class OptimalControl:
         self.kinematics = kinematics
 
 
-
     def f(self,x,u):
         """
         Nonlinear dynamics of the system
@@ -65,7 +64,123 @@ class OptimalControl:
 
         return xdot
     
-    def linearize_numerical_perturbation(self, x, u):
+    def inverse_dynamics(self, q, qdot):
+        """
+            Calculates the joint acceleration to achieve a certain force on
+            the end affector
+        
+        Parameters:
+        _____________
+        q:  np.ndarray 2x1
+        qdot:  np.ndarray 2x1
+
+        Returns:
+        __________
+        qdoubledot: np.ndarray 2x1
+        """
+
+        q1 = q[0].item()
+        q2 = q[1].item()
+        q1dot = qdot[0].item()
+        q2dot = qdot[1].item()
+
+        l1 = self.robot_parameters['l1']
+        l2 = self.robot_parameters['l2']
+        m1 = self.robot_parameters['m1']
+        m2 = self.robot_parameters['m2']
+
+        desired_force = self.problem_parameters['desired_force_on_the_wall_N']
+        F = np.array([[desired_force],[0.0]])
+        jacobian = self.kinematics.jacobian(np.array([[q1],[q2]]))
+        jacobian_T = jacobian.T
+
+
+        Mq = np.array([[((m1+m2)*l1*l1)+(m2*l2*l2)+(2*m2*l1*l2*math.cos(q2)), (m2*l2*l2)+(m2*l1*l2*math.cos(q2))],
+                       [(m2*l2*l2)+(m2*l1*l2*math.cos(q2)),             (m2*l2*l2)]])
+        Mq_inv = np.linalg.inv(Mq)
+
+        Cq = np.array([[0.0, -m2*l1*l2*(2*q1dot+q2dot)*math.sin(q2)],
+                       [0.5*m2*l1*l2*(2*q1dot+q2dot)*math.sin(q2), -0.5*m2*l1*l2*q1dot*math.sin(q2)]])
+    
+        qdoubledot = Mq_inv @ (jacobian_T@F - Cq@qdot)
+
+        return qdoubledot
+    
+    def f2(self,x,u):
+        """
+        Nonlinear dynamics of the system
+
+        Parameters:
+        _____________
+        x:  np.ndarray 6x1
+        u: np.ndarray 2x1
+
+        Returns:
+        __________
+        xdot: np.ndarray 6x1
+        """
+        q1 = x[0].item()
+        q2 = x[1].item()
+        q1dot = x[2].item()
+        q2dot = x[3].item()
+        # q1doubledot = x[4].item()
+        # q2doubledot = x[5].item()
+        qdot = np.array([[q1dot],[q2dot]])
+        
+        l1 = self.robot_parameters['l1']
+        l2 = self.robot_parameters['l2']
+        m1 = self.robot_parameters['m1']
+        m2 = self.robot_parameters['m2']
+
+        desired_force = self.problem_parameters['desired_force_on_the_wall_N']
+        F = np.array([[desired_force],[0.0]])
+        jacobian = self.kinematics.jacobian(np.array([[q1],[q2]]))
+        jacobian_T = jacobian.T
+
+        Mq = np.array([[((m1+m2)*l1*l1)+(m2*l2*l2)+(2*m2*l1*l2*math.cos(q2)), (m2*l2*l2)+(m2*l1*l2*math.cos(q2))],
+                       [(m2*l2*l2)+(m2*l1*l2*math.cos(q2)),             (m2*l2*l2)]])
+        dMqdq11 = 0
+        dMqdq12 = -m2*l1*l2*math.sin(q2)
+        dMqdq21 = 0
+        dMqdq22 = 0
+        dMqdq = np.array([[dMqdq11, dMqdq12],
+                          [dMqdq21, dMqdq22]])
+        Mq_inv = np.linalg.inv(Mq)
+
+        # Differentiation of inverse
+        dMq_invdq = -Mq_inv @ (dMqdq @ Mq_inv)
+
+        # Derivative of jacobian transpose
+        dJTdq11 = -l1*math.cos(q1)-l2*math.cos(q1+q2)
+        dJTdq12 = -l2*math.sin(q1+q2)
+        dJTdq21 = -l2*math.cos(q1+q2)
+        dJTdq22 = -l2*math.sin(q1+q2)
+        dJTdq = np.array([[dJTdq11, dJTdq12],
+                        [dJTdq21, dJTdq22]])
+        
+        dCdq11 = 0.0
+        dCdq12 = -m2*l1*l2*(2*q1dot+q2dot)*math.cos(q2)
+        dCdq21 = 0.0
+        dCdq22 = -0.5*m2*l1*l2*q1dot*math.cos(q2)
+        dCdq = np.array([[dCdq11, dCdq12],
+                        [dCdq21,dCdq22]])
+
+        Cq = np.array([[0.0, -m2*l1*l2*(2*q1dot+q2dot)*math.sin(q2)],
+                       [0.5*m2*l1*l2*(2*q1dot+q2dot)*math.sin(q2), -0.5*m2*l1*l2*q1dot*math.sin(q2)]])
+        
+        B = np.eye(2)
+
+        # Calculated acceleration
+        qdoubledot = Mq_inv @ (B@u + jacobian_T@F - Cq@qdot)
+        
+        chainrule_first_term = dMq_invdq @ (B@u + jacobian_T@F - Cq@qdot)
+        chainrule_second_term = Mq_inv @ (dJTdq@F - dCdq@qdot)
+        qtripledot = chainrule_first_term + chainrule_second_term
+
+        xdot = np.array([[q1dot],[q2dot], [qdoubledot[0].item()],[qdoubledot[1].item()],[qtripledot[0].item()],[qtripledot[1].item()]])
+        return xdot
+    
+    def linearize_numerical_perturbation(self, x, u, f):
         """
         Linearises dynamics about an operating point
         
@@ -79,29 +194,29 @@ class OptimalControl:
         A: np.ndarray 4x4
         B: np.ndarray 4x2
         """
-        n = 4 
-        m = 2
+        n = x.shape[0] 
+        m = u.shape[0]
         A_lin = np.zeros((n,n))
         B_lin = np.zeros((n,m))
 
-        xdot = self.f(x,u)
+        xdot = f(x,u)
         pert = 1e-2
 
         # A matrix
         for i in range(0,n):
             x_pert = np.copy(x)
             x_pert[i] = x_pert[i] + pert
-            xdot_pert = self.f(x_pert,u)
+            xdot_pert = f(x_pert,u)
             A_lin[:,i] = ((xdot_pert-xdot)/pert).flatten()
 
         # B matrix
         for j in range(0,m):
             u_pert = np.copy(u)
             u_pert[j] = u_pert[j] + pert
-            xdot_pert = self.f(x,u_pert)
+            xdot_pert = f(x,u_pert)
             B_lin[:,j] = ((xdot_pert-xdot)/pert).flatten()
 
-        return A_lin, B_lin
+        return A_lin, B_lin, xdot
 
     def linearize(self, x, u):
         """
@@ -257,6 +372,61 @@ class OptimalControl:
 
         return ydes
 
+    def tracking_input2(self, ja, jw):
+        """
+            Addition of a tracking input allows us to shift the equilibrium point of the system 
+            (where the state will converge to) towards our desired state,
+            this function calculates and returns the tracking input
+
+            State
+            j1
+            j2
+            w1
+            w2
+            alpha1
+            alpha2
+
+            Parameters:
+            _____________
+            ja: np.ndarray 2x1
+
+            Returns:
+            __________
+            v: np.ndarray 6x1
+        """
+        
+        # Calculate ydes
+        ydes = np.zeros((6,1))
+
+        # Maintain end affector coordinates along the wall
+        end_affector_coordinates = self.kinematics.forward_kinematics(ja)
+
+        # print(end_affector_coordinates)
+        desired_end_affector_coordinates = np.copy(end_affector_coordinates)
+        desired_end_affector_coordinates[0] += 0.15
+        desired_end_affector_coordinates[0] = min(desired_end_affector_coordinates[0],self.problem_parameters['distance_from_base_to_wall_m'])
+        # desired_end_affector_coordinates[1] -= 0.01
+
+        ydes_ja = self.kinematics.inverse_kinematics(desired_end_affector_coordinates)
+
+        # Linear velocity along the wall
+        desired_velocity_vec =  np.array([[0.0],[-self.problem_parameters['desired_velocity_along_the_wall_ms']]])
+        jacobian = self.kinematics.jacobian(ja)
+        jacobian_inv = np.linalg.pinv(jacobian)
+        ydes_w = jacobian_inv @ desired_velocity_vec
+
+        # Desired acceleration to produce force on the wall
+        ydes_alpha = self.inverse_dynamics(ja,jw)
+
+        # Desired state!
+        ydes[0][0] = ydes_ja[0][0]
+        ydes[1][0] = ydes_ja[1][0]
+        ydes[2][0] = ydes_w[0][0]
+        ydes[3][0] = ydes_w[1][0]
+        ydes[4][0] = ydes_alpha[0][0]
+        ydes[5][0] = ydes_alpha[1][0]
+
+        return ydes
 
 if __name__ == "__main__":
     robot_parameters = {
@@ -276,23 +446,25 @@ if __name__ == "__main__":
     ja = np.array([[0.78],
                    [-1.44]])
     print(ja.shape)
-    x = np.array([[ja[0][0]], [ja[1][0]],[0.0],[-0.1]])
+    jw = np.array([[0.0],
+                   [-0.1]])
+    x = np.array([[ja[0][0]], [ja[1][0]],[jw[0][0]],[jw[1][0]],[0.1],[0.1]])
     print(x.shape)
     u = np.array([[0.02],[0.02]])
     print(u.shape)
 
-    # xdot = controller.f(x,u)
-    # print(xdot)
-    # print(xdot.shape)
+    xdot = controller.f2(x,u)
+    print(xdot)
+    print(xdot.shape)
 
-    A,B = controller.linearize(x,u)
-    print(A)
-    print(A.shape)
-    print(B) 
-    print(B.shape)
+    # A,B = controller.linearize(x,u)
+    # print(A)
+    # print(A.shape)
+    # print(B) 
+    # print(B.shape)
 
     print("Perturbation!! ")
-    A,B = controller.linearize_numerical_perturbation(x,u)
+    A,B,_ = controller.linearize_numerical_perturbation(x,u, controller.f2)
     print(A)
     print(A.shape)
     print(B) 
@@ -300,15 +472,19 @@ if __name__ == "__main__":
 
 
     # linear quadratic regulator
-    Q = np.eye((4))
+    Q = np.eye((6))
     R = 1e-2*np.eye((2))
 
     K,S,E = control.lqr(A,B,Q,R)
     print(K)
     print(K.shape)
 
-    C=np.eye((4))
+    qdoubledot = controller.inverse_dynamics(ja,jw)
+    print(qdoubledot)
+    print(qdoubledot.shape)
+
+    C=np.eye((6))
     print(C)
-    v = controller.tracking_input(A, B, K, C, ja)
+    v = controller.tracking_input2(ja,jw)
     print(v)
     print(v.shape)
