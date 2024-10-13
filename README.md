@@ -24,6 +24,10 @@
 * Does not need hand tuning of the controller behaviour, more robust to external disturbance
 * Good tracking of end affector force is not achieved because it is a feed forward term in my control law
 
+|    Ef force     |      Ef velocity    |   Ef pose     |    Joint torques     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | 
+| <img src="media/graphs/oc_control_4/ef_force.png" width=""> | <img src="media/graphs/oc_control_4/ef_velocity.png" width=""> | <img src="media/graphs/oc_control_4/ef_pose.png" width=""> |  <img src="media/graphs/oc_control_4/joint_torques.png" width=""> |
+
 #### State space control (state: q,qdot,qddot)
 * Our control space is torques applied to the joints of the manipulator which directly changes the acceleration of the joints
 * The controller applies certain accelerations to track other desired quantities i.e. position/ velocity
@@ -31,8 +35,10 @@
 * So the lqr is unstable if we try to track all three acceleration along with velocity and position
 * If the accleration weights in the Q matrix are decreased the controller becomes stable but does not track our desired acceleration
 
-#### TODO future
-* Can I use the C matrix to only control velocity and the acceleration?
+|    Ef force     |      Ef velocity    |   Ef pose     |    Joint torques     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | 
+| <img src="media/graphs/oc_control_6/ef_force.png" width=""> | <img src="media/graphs/oc_control_6/ef_velocity.png" width=""> | <img src="media/graphs/oc_control_6/ef_pose.png" width=""> |  <img src="media/graphs/oc_control_6/joint_torques.png" width=""> |
+
 
 #### Reference videos
 * LQR tracking https://www.youtube.com/watch?v=X3Dfy8H4Inc
