@@ -9,7 +9,7 @@
 * Desired quantities to control in the end affector space can be mapped to force vectors which are then mapped to joint space to achieve the desired control
 * Sometimes its not easy to map quantites to control to the control space
 * Not robust to external disturbance
-* Needs hand tuning of controller behaviour like oscillations and stead state error
+* Needs hand tuning of controller behaviour like oscillations and steady state error
 
 #### State space control (state: q,qdot)
 * Necessary condition is the dynamic equation of the system, for an N-link manipulator lagrangian energy method is a good way to derive this, math can get complicated
