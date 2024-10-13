@@ -63,7 +63,9 @@
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/eDi9D-U_llk/0.jpg)](https://www.youtube.com/watch?v=eDi9D-U_llk)
 
-#### Reference videos
+#### References
+* Modelling a contact force in dynamics https://manipulation.csail.mit.edu/force.html
+* Lagrange method dynamics https://underactuated.mit.edu/multibody.html#:~:text=Continuing%20our%20abstractions%2C%20we%20find,and%20is%20the%20gravity%20vector.
 * LQR tracking https://www.youtube.com/watch?v=X3Dfy8H4Inc
 * Mujoco world model https://www.youtube.com/watch?v=j1nCeqtfySQ
 * LQR regulator around a static equilibrium point (including numerical perturbation method of linearistion) https://www.youtube.com/watch?v=KvNmOMk8pYs&list=PLc7bpbeTIk75dgBVd07z6_uKN1KQkwFRK&index=27
