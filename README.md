@@ -33,6 +33,8 @@
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | 
 | <img src="media/graphs/force_control/ef_force.png" width=""> | <img src="media/graphs/force_control/ef_velocity.png" width=""> | <img src="media/graphs/force_control/ef_pose.png" width=""> |  <img src="media/graphs/force_control/joint_torques.png" width=""> |
 
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/PjQ09tPuV74/0.jpg)](https://www.youtube.com/watch?v=PjQ09tPuV74)
+
 #### State space control (state: q,qdot)
 * Necessary condition is the dynamic equation of the system, for an N-link manipulator lagrangian energy method is a good way to derive this, math can get complicated
 * A non linear system like the manipulator needs to be linearised about an operating point to apply the state space control theory
@@ -46,6 +48,8 @@
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | 
 | <img src="media/graphs/oc_control_4/ef_force.png" width=""> | <img src="media/graphs/oc_control_4/ef_velocity.png" width=""> | <img src="media/graphs/oc_control_4/ef_pose.png" width=""> |  <img src="media/graphs/oc_control_4/joint_torques.png" width=""> |
 
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/pJ1vW_-F52E/0.jpg)](https://www.youtube.com/watch?v=pJ1vW_-F52E)
+
 #### State space control (state: q,qdot,qddot)
 * Our control space is torques applied to the joints of the manipulator which directly changes the acceleration of the joints
 * The controller applies certain accelerations to track other desired quantities i.e. position/ velocity
@@ -57,6 +61,7 @@
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | 
 | <img src="media/graphs/oc_control_6/ef_force.png" width=""> | <img src="media/graphs/oc_control_6/ef_velocity.png" width=""> | <img src="media/graphs/oc_control_6/ef_pose.png" width=""> |  <img src="media/graphs/oc_control_6/joint_torques.png" width=""> |
 
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/eDi9D-U_llk/0.jpg)](https://www.youtube.com/watch?v=eDi9D-U_llk)
 
 #### Reference videos
 * LQR tracking https://www.youtube.com/watch?v=X3Dfy8H4Inc
