@@ -10,7 +10,7 @@
 * Sometimes its not easy to map quantites to control to the control space
 * Not robust to external disturbance
 * Needs hand tuning of controller behaviour like oscillations and steady state error
-* Torques applied can be really large as seen in the graphs and need capping
+* Torques applied can be really large as seen in the graphs and need capping potentially unbounded based on the error
 
 |    Ef force     |      Ef velocity    |   Ef pose     |    Joint torques     |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | 
