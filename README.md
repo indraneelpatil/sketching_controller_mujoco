@@ -11,6 +11,10 @@
 * Not robust to external disturbance
 * Needs hand tuning of controller behaviour like oscillations and steady state error
 
+|    Ef force     |      Ef velocity    |   Ef pose     |    Joint torques     |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | 
+| <img src="media/graphs/force_control/ef_force.png" width=""> | <img src="media/graphs/force_control/ef_velocity.png" width=""> | <img src="media/graphs/force_control/ef_pose.png" width=""> |  <img src="media/graphs/force_control/joint_torques.png" width=""> |
+
 #### State space control (state: q,qdot)
 * Necessary condition is the dynamic equation of the system, for an N-link manipulator lagrangian energy method is a good way to derive this, math can get complicated
 * A non linear system like the manipulator needs to be linearised about an operating point to apply the state space control theory
