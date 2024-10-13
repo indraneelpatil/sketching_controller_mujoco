@@ -1,3 +1,20 @@
+### Problem parameters
+
+```bash
+  robot_parameters = {
+        'l1': 1.0,
+        'l2': 1.0,
+        'm1': 1.0,
+        'm2': 1.0
+    }
+
+    problem_parameters = {
+        'distance_from_base_to_wall_m' : 1.46, #in m
+        'desired_force_on_the_wall_N' : 0.5, #in N
+        'desired_velocity_along_the_wall_ms' : 0.2, #in m/s
+    }
+```
+
 ### Takeaways
 
 #### Mujoco
