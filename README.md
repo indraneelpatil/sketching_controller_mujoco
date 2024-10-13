@@ -11,16 +11,24 @@
 * Not robust to external disturbance
 * Needs hand tuning of controller behaviour like oscillations and stead state error
 
-#### State space control
-* Necesaary condition is the dynamic equation of the system, for an N-link manipulator lagrangian energy method is a good way to derive this, math can get complicated
+#### State space control (state: q,qdot)
+* Necessary condition is the dynamic equation of the system, for an N-link manipulator lagrangian energy method is a good way to derive this, math can get complicated
 * A non linear system like the manipulator needs to be linearised about an operating point to apply the state space control theory
 * Linearisation can be achieved using taylor series expansion and also numerical perturbation, in practice numerical perturbation is way easier to implement and the result is identical from both the methods
 * End affector force cannot be modelled in the dynamic equation of the manipulator since the dynamic equations is used to get an optimal feedback gain K and then all that the controller sees is the desired state and actual state, the modelled force in the dynamics is hidden away by K, so modelling that force in the dynamics of the manipulator might get you a better K but thats it
 * End affector force needs a feedforward term in the control law along with the state space tracking feedback term
 * Does not need hand tuning of the controller behaviour, more robust to external disturbance
+* Good tracking of end affector force is not achieved because it is a feed forward term in my control law
+
+#### State space control (state: q,qdot,qddot)
+* Our control space is torques applied to the joints of the manipulator which directly changes the acceleration of the joints
+* The controller applies certain accelerations to track other desired quantities i.e. position/ velocity
+* If our tracking controller also tries to control the acceleration then it loses the ability to track the other quantities
+* So the lqr is unstable if we try to track all three accelation/ velocity and position
+* If the accleration weights in the Q matrix are decreased the controller becomes stable but does not track our desired acceleration
 
 #### TODO future
-* End affector force fluctuates because it is a feed forward term in my control law, if I wanted feedback control on force I can consider adding acceleration to the state but it is unclear how to get dynamic form for x_triple_dot, maybe by differentiating q_double_dot standard form? Nevermind that should work
+* Can I use the C matrix to only control velocity and the acceleration?
 
 #### Reference videos
 * LQR tracking https://www.youtube.com/watch?v=X3Dfy8H4Inc
